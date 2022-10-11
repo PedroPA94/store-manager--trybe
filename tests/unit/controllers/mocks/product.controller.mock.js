@@ -18,6 +18,14 @@ const okResponseAllProducts = {
   message: allProductsFromService,
 };
 
+const okResponseNewProduct = {
+  type: null,
+  message: {
+    id: 42,
+    name: 'Special product',
+  },
+};
+
 const badResponseNoProductId = {
   type: 'PRODUCT_NOT_FOUND',
   message: 'Product not found',
@@ -36,6 +44,7 @@ const okResponseProductById = {
 module.exports = {
   allProductsFromService,
   okResponseAllProducts,
+  okResponseNewProduct,
   badResponseNoProductId,
   badResponseInvalidId,
   okResponseProductById,

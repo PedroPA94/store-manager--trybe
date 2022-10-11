@@ -17,5 +17,11 @@ describe('A camada model de products:', function () {
     expect(result).to.be.deep.equal(allProductsFromDB[0]);
   });
 
+  it('Insere corretamente um produto novo', async function () {
+    sinon.stub(connection, 'execute').resolves([{ insertId: 42 }]);
+    const result = await productModel.insert('Definitive answer');
+    expect(result).to.be.equal(42);
+  });
+
   afterEach(sinon.restore);
 });
