@@ -6,7 +6,7 @@ const { allProductsFromDB } = require('./mocks/product.model.mock');
 
 describe('A camada model de products:', function () {
   it('Retorna corretamente uma lista de produtos', async function () {
-    sinon.stub(connection, 'execute').resolves(allProductsFromDB);
+    sinon.stub(connection, 'execute').resolves([allProductsFromDB]);
     const result = await productModel.findAll();
     expect(result).to.be.deep.equal(allProductsFromDB);
   });
