@@ -111,12 +111,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-10-13T19:15:47.969Z",
-    "modified": "2022-10-13T20:17:42.236Z",
+    "modified": "2022-10-13T22:16:20.226Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"newSale\": [\n  {\n    \"quantity\": 1\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 5\n  }\n]\n}",
+      "raw": "[\n  { \n    \"productId\": 1,\n    \"quantity\": 1\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 5\n  }\n]\n",
       "form": []
     },
     "tests": []
