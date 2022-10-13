@@ -1,3 +1,4 @@
+const { productModel } = require('../../models');
 const { idSchema, nameSchema } = require('./schema');
 
 const validateId = (id) => {
@@ -16,7 +17,26 @@ const validateProductName = (productName) => {
   return { type: null, message: '' };
 };
 
+const validateNewSale = async (newSale) => {
+  const checkProducts = newSale
+    .map(async ({ productId }) => productModel.findById(productId));
+
+  const invalidProducts = await (await Promise.all(checkProducts))
+    .some((product) => product === undefined);
+
+  if (invalidProducts) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+
+  const invalidQuantites = newSale.some(({ quantity }) => quantity < 1);
+
+  if (invalidQuantites) {
+    return { type: 'INVALID_VALUE', message: '"quantity" must be greater than or equal to 1' };
+  }
+
+  return { type: null, message: '' };
+};
+
 module.exports = {
   validateId,
   validateProductName,
+  validateNewSale,
 };
