@@ -82,5 +82,27 @@ describe('A camada service de products:', function () {
     });
   });
 
+  describe('Testando deleção de produto:', function () {
+    it('Falha com id inválido', async function () {
+      const error = await productService.deleteProduct(0);
+      expect(error.type).to.be.equal('INVALID_VALUE');
+      expect(error.message).to.be.equal('"id" must be a number');
+    });
+
+    it('Falha caso o produto não exista', async function () {
+      sinon.stub(productModel, 'remove').resolves(0);
+      const error = await productService.deleteProduct(999);
+      expect(error.type).to.be.equal('PRODUCT_NOT_FOUND');
+      expect(error.message).to.be.equal('Product not found');
+    });
+
+    it('Deleta corretamente um produto com id válido', async function () {
+      sinon.stub(productModel, 'remove').resolves(1);
+      const result = await productService.deleteProduct(1);
+      expect(result.type).to.be.null;
+      expect(result.message).to.be.equal('');
+    });
+  });
+
   afterEach(sinon.restore);
 });

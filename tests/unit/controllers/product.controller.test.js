@@ -130,7 +130,7 @@ describe('A camada controller de products:', function () {
 
     it('Falha e responde com erro 404 para id inexistente', async function () {
       const res = {};
-      const req = { params: { id: 1 }, body: { name: 'Erro' } };
+      const req = { params: { id: 999 }, body: { name: 'Erro' } };
 
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
@@ -159,6 +159,51 @@ describe('A camada controller de products:', function () {
           id: 1,
           name: 'Teste'
       });
+    });
+  });
+
+  describe('Testando deleção de produto:', function () {
+    it('Falha e responde com erro 422 para id inválido', async function () {
+      const res = {};
+      const req = { params: { id: 0 } };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await productController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: '"id" must be a number' });
+    });
+
+    it('Falha e responde com erro 404 para id inexistente', async function () {
+      const res = {};
+      const req = { params: { id: 999 } };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon.stub(productService, 'deleteProduct').resolves(badResponseNoProductId);
+
+      await productController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    });
+
+    it('Deleta corretamente um produto com id válido', async function () {
+      const res = {};
+      const req = { params: { id: 1 } };
+
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns();
+
+      sinon.stub(productService, 'deleteProduct').resolves({ type: null, message: '' });
+
+      await productController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+      expect(res.end).to.have.been.called;
     });
   });
 

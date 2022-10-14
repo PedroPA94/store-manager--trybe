@@ -29,5 +29,11 @@ describe('A camada model de products:', function () {
     expect(result).to.be.equal(1);
   });
 
+  it('Deleta corretamente um produto', async function () {
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+    const result = await productModel.remove(1);
+    expect(result).to.be.equal(1);
+  });
+
   afterEach(sinon.restore);
 });
