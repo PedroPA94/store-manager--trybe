@@ -35,8 +35,22 @@ const validateNewSale = async (newSale) => {
   return { type: null, message: '' };
 };
 
+const validateProductUpdate = async (id, productName) => {
+  let error = validateId(id);
+  if (error.type) return error;
+
+  error = validateProductName(productName);
+  if (error.type) return error;
+
+  const validProduct = await productModel.findById(id);
+  if (validProduct) return { type: null, message: '' };
+
+  return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+};
+
 module.exports = {
   validateId,
   validateProductName,
   validateNewSale,
+  validateProductUpdate,
 };

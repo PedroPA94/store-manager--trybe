@@ -41,6 +41,14 @@ const okResponseProductById = {
   message: allProductsFromService[0]
 };
 
+const okResponseUpdatedProduct = {
+  type: null,
+  message: {
+    id: 1,
+    name: 'Teste',
+  },
+};
+
 module.exports = {
   allProductsFromService,
   okResponseAllProducts,
@@ -48,4 +56,5 @@ module.exports = {
   badResponseNoProductId,
   badResponseInvalidId,
   okResponseProductById,
+  okResponseUpdatedProduct,
 }

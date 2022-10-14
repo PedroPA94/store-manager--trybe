@@ -23,5 +23,11 @@ describe('A camada model de products:', function () {
     expect(result).to.be.equal(42);
   });
 
+  it('Atualiza corretamente um produto', async function () {
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+    const result = await productModel.update({ id: 1, name: 'Teste' });
+    expect(result).to.be.equal(1);
+  });
+
   afterEach(sinon.restore);
 });

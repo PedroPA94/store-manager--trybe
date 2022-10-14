@@ -54,5 +54,33 @@ describe('A camada service de products:', function () {
     });
   });
 
+  describe('Testando a atualização de um produto:', function () {
+    it('Falha com id inválido', async function () {
+      const error = await productService.updateProduct(0, 'Teste');
+      expect(error.type).to.be.equal('INVALID_VALUE');
+      expect(error.message).to.be.equal('"id" must be a number');
+    });
+
+    it('Falha caso o nome do produto tenha menos de 5 caracteres', async function () {
+      const error = await productService.updateProduct(1, 'Erro');
+      expect(error.type).to.be.equal('INVALID_VALUE');
+      expect(error.message).to.be.equal('"name" length must be at least 5 characters long');
+    });
+
+    it('Falha caso o produto não exista', async function () {
+      sinon.stub(productModel, 'findById').resolves(undefined);
+      const error = await productService.updateProduct(999, 'Teste');
+      expect(error.type).to.be.equal('PRODUCT_NOT_FOUND');
+      expect(error.message).to.be.equal('Product not found');
+    });
+
+    it('Atualiza corretamente com id e name corretos', async function () {
+      sinon.stub(productModel, 'findById').resolves(1);
+      sinon.stub(productModel, 'update').resolves();
+      const result = await productService.updateProduct(1, 'Teste');
+      expect(result.message).to.be.deep.equal({ id: 1, name: 'Teste' });
+    });
+  });
+
   afterEach(sinon.restore);
 });
