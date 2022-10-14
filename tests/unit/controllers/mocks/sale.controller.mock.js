@@ -1,3 +1,5 @@
+const { getAllSales } = require("../../../../src/services/sale.service");
+
 const newSaleBadProductId = [
   {
     productId: 999,
@@ -24,6 +26,37 @@ const newSaleValidReturn = {
   itemsSold: newSaleValid,
 }
 
+const allSales = [
+  {
+    "productId": 1,
+    "quantity": 5,
+    "date": "2022-10-14T18:05:13.000Z"
+  },
+  {
+    "productId": 1,
+    "quantity": 10,
+    "date": "2022-10-14T18:05:13.000Z"
+  },
+  {
+    "productId": 2,
+    "quantity": 15,
+    "date": "2022-10-14T18:05:13.000Z"
+  },
+];
+
+const saleById = [
+  {
+    "productId": 1,
+    "quantity": 5,
+    "date": "2022-10-14T18:05:13.000Z"
+  },
+  {
+    "productId": 1,
+    "quantity": 10,
+    "date": "2022-10-14T18:05:13.000Z"
+  },
+]
+
 const badResponseNoProductId = {
   type: 'PRODUCT_NOT_FOUND',
   message: 'Product not found',
@@ -34,10 +67,25 @@ const badResponseInvalidQuantity = {
   message: '"quantity" must be greater than or equal to 1',
 };
 
-const goodResponse = {
+const goodResponseNewSale = {
   type: null,
   message: newSaleValidReturn,
-}
+};
+
+const goodResponseAllSales = {
+  type: null,
+  message: allSales,
+};
+
+const goodResponseSaleById = {
+  type: null,
+  message: saleById,
+};
+
+const badResponseNoSaleId = {
+  type: 'SALE_NOT_FOUND',
+  message: 'Sale not found',
+};
 
 module.exports = {
   badResponseNoProductId,
@@ -46,5 +94,10 @@ module.exports = {
   newSaleBadQuantity,
   newSaleValid,
   newSaleValidReturn,
-  goodResponse,
-}
+  goodResponseNewSale,
+  allSales,
+  saleById,
+  goodResponseAllSales,
+  badResponseNoSaleId,
+  goodResponseSaleById,
+};
