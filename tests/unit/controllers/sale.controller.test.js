@@ -149,5 +149,52 @@ describe('A camada de controller de sales:', function () {
     });
   });
 
+  describe('Testando atualização de uma venda:', function () {
+    it('Falha com status 404 ao tentar inserir uma venda com id de produto inválido', async function () {
+      const res = {};
+      const req = { body: newSaleBadProductId, params: { id: 1 }};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon.stub(saleService, 'updateSale').resolves(badResponseNoProductId);
+
+      await saleController.updateSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    });
+
+    it('Falha com status 422 ao tentar inserir uma venda com quantidade menor do que 1', async function () {
+      const res = {};
+      const req = { body: newSaleBadQuantity, params: { id: 1 }};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon.stub(saleService, 'updateSale').resolves(badResponseInvalidQuantity);
+
+      await saleController.updateSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: '"quantity" must be greater than or equal to 1' });
+    });
+
+    it('Retorna corretamente com nova venda válida', async function () {
+      const res = {};
+      const req = { body: newSaleValid, params: { id: 1 }};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon.stub(saleService, 'updateSale').resolves(goodResponseNewSale);
+
+      await saleController.updateSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(newSaleValidReturn);
+    });
+  });
+
   afterEach(sinon.restore);
 });

@@ -83,5 +83,52 @@ describe('A camada de service de sales:', function () {
     });
   });
 
+  describe('Testando atualização de uma venda', function () {
+    it('Falha com id inválido', async function () {
+      const error = await saleService.updateSale(0, {});
+      expect(error.type).to.be.equal('INVALID_VALUE');
+      expect(error.message).to.be.equal('"id" must be a number');
+    });
+
+    it('Falha com produto inexistente', async function () {
+      sinon.stub(productModel, 'findById').resolves(undefined);
+      const error = await saleService.updateSale(1, newSaleInvalidProductId);
+      expect(error.type).to.be.equal('PRODUCT_NOT_FOUND');
+      expect(error.message).to.be.equal('Product not found');
+    });
+
+    it('Falha ao tentar atualizar venda com quantidade menor do que 1', async function () {
+      sinon.stub(productModel, 'findById').resolves({});
+      const error = await saleService.updateSale(1, newSaleInvalidQuantity);
+      expect(error.type).to.be.equal('INVALID_VALUE');
+      expect(error.message).to.be.equal('"quantity" must be greater than or equal to 1');
+    });
+
+    it('Falha ao tentar atualizar venda que não existe', async function () {
+      sinon.stub(productModel, 'findById').resolves({});
+      sinon.stub(saleProductModel, 'findById').resolves([]);
+
+      const error = await saleService.updateSale(999, newValidSale);
+
+      expect(error.type).to.be.equal('SALE_NOT_FOUND');
+      expect(error.message).to.be.equal('Sale not found');
+    });
+
+    it('Atualiza corretamente com dados válidos', async function () {
+      sinon.stub(productModel, 'findById').resolves({});
+      sinon.stub(saleProductModel, 'findById').resolves([{}]);
+      sinon.stub(saleProductModel, 'update').resolves();
+
+      const result = await saleService.updateSale(1, newValidSale);
+      const expected = {
+        saleId: 1,
+        itemsUpdated: newValidSale,
+      };
+
+      expect(result.type).to.be.null;
+      expect(result.message).to.be.deep.equal(expected)
+    });
+  });
+
   afterEach(sinon.restore);
 });

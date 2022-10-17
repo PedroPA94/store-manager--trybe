@@ -28,5 +28,16 @@ describe('A camada de model de sales_products:', function () {
     expect(result).to.be.deep.equal(saleById);
   });
 
+  it('Atualiza corretamente uma venda', async function () {
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+    const updateEntry = {
+      productId: 1,
+      saleId: 1,
+      quantity: 2,
+    }
+    const result = await saleProductModel.update(updateEntry);
+    expect(result).to.be.equal(1);
+  })
+
   afterEach(sinon.restore);
 });
