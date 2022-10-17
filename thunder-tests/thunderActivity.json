@@ -120,5 +120,24 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "285cc336-a6dd-4e11-9bf6-396fbb8163fa",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:3000/sales/1",
+    "url": "http://localhost:3000/sales/1",
+    "method": "PUT",
+    "sortNum": 0,
+    "created": "2022-10-17T18:53:06.595Z",
+    "modified": "2022-10-17T18:57:45.226Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "[{}]",
+      "form": []
+    },
+    "tests": []
   }
 ]
