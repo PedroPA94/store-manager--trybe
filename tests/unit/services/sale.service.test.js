@@ -59,8 +59,29 @@ describe('A camada de service de sales:', function () {
       const result = await saleService.getAllSales();
       expect(result.message).to.be.deep.equal(allSales);
     });
-
   });
   
+  describe('Testando deleção de uma venda:', function () {
+    it('Falha com id inválido', async function () {
+      const error = await saleService.deleteSale(0);
+      expect(error.type).to.be.equal('INVALID_VALUE');
+      expect(error.message).to.be.equal('"id" must be a number');
+    });
+
+    it('Falha caso o produto não exista', async function () {
+      sinon.stub(saleModel, 'remove').resolves(0);
+      const error = await saleService.deleteSale(999);
+      expect(error.type).to.be.equal('SALE_NOT_FOUND');
+      expect(error.message).to.be.equal('Sale not found');
+    });
+
+    it('Deleta corretamente um produto com id válido', async function () {
+      sinon.stub(saleModel, 'remove').resolves(1);
+      const result = await saleService.deleteSale(1);
+      expect(result.type).to.be.null;
+      expect(result.message).to.be.equal('');
+    });
+  });
+
   afterEach(sinon.restore);
 });

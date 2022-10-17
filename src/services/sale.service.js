@@ -32,8 +32,18 @@ const getSaleById = async (id) => {
   return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
 };
 
+const deleteSale = async (id) => {
+  const validation = validateId(id);
+  if (validation.type) return validation;
+
+  const affectedRows = await saleModel.remove(id);
+  if (affectedRows > 0) return { type: null, message: '' };
+  return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
+};
+
 module.exports = {
   addNewSale,
   getAllSales,
   getSaleById,
+  deleteSale,
 };

@@ -8,6 +8,16 @@ const insert = async () => {
   return insertId;
 };
 
+const remove = async (id) => {
+  const [{ affectedRows }] = await conn.execute(
+    'DELETE FROM StoreManager.sales WHERE id = ?',
+    [id],
+  );
+
+  return affectedRows;
+};
+
 module.exports = {
   insert,
+  remove,
 };
