@@ -46,10 +46,20 @@ const remove = async (id) => {
   return affectedRows;
 };
 
+const query = async (queryTerm) => {
+  const [products] = await conn.execute(
+    'SELECT * FROM StoreManager.products WHERE name LIKE CONCAT("%", ?, "%")',
+    [queryTerm],
+  );
+
+  return products;
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
   update,
   remove,
+  query,
 };

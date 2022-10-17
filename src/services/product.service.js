@@ -49,10 +49,16 @@ const deleteProduct = async (id) => {
   return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
 };
 
+const queryProduct = async (queryTerm) => {
+  const queryResult = await productModel.query(queryTerm);
+  return { type: null, message: queryResult };
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
   createProduct,
   updateProduct,
   deleteProduct,
+  queryProduct,
 };
