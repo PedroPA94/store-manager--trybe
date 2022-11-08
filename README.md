@@ -2,7 +2,7 @@
 
 This project is a Back-end RESTful API for managing a store. It enables the creation, listing, updating and deletion (CRUD) of products and sales. I also wrote tests for the API.
 
-In this project I was able to apply the concepts of software architecture based on layers. Three layers are used: Model, Service and Controller (MSC). The Model is responsible for communicating with the database, the middle layer, Service, validates de business rules and the Controller receives and responds HTTP requests.
+In this project I was able to apply the concepts of software architecture based on layers. Three layers are used: Model, Service and Controller (MSC). The Model is responsible for communicating with the database, the middle layer, Service, validates the business rules and the Controller receives and responds HTTP requests.
 
 This project was developed while studying Back-end web development [@betrybe](https://github.com/betrybe). The files I worked on are in the ```/src``` and `/tests` folders. I got approval on 100% of this project's requirements.
 
